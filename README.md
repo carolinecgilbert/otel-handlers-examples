@@ -283,4 +283,5 @@ Example Output:
 }
 ```
 
-# structlog-demo
+## Contributors
+Caroline Gilbert: [carolincgilbert](https://github.com/carolinecgilbert)
