@@ -102,13 +102,25 @@ class LoguruHandler:
 
     def __init__(
         self,
-        logger_provider=None,
+        service_name: str,
+        server_hostname: str,
+        exporter: LogExporter,
     ) -> None:
-        
-        self._logger_provider = logger_provider or get_logger_provider()
-        self._logger = get_logger(
-            __name__, logger_provider=self._logger_provider
+        logger_provider = LoggerProvider(
+            resource=Resource.create(
+                {
+                    "service.name": service_name,
+                    "service.instance.id": server_hostname,
+                }
+            ),
         )
+
+        logger_provider.add_log_record_processor(
+            BatchLogRecordProcessor(exporter, max_export_batch_size=1)
+        )
+
+        self._logger_provider = logger_provider
+        self._logger = logger_provider.get_logger(__name__)
         
         
     def _get_attributes(self, record) -> Attributes:
@@ -180,5 +192,5 @@ class LoguruHandler:
 
     def sink(self, record) -> None:
         
-        self._logger.emit(self._translate(record))
+        self._logger.emit(self._translate(record.record))
     
