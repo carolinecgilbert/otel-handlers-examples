@@ -23,7 +23,9 @@ pip install opentelemetry-exporter-otlp
 ```
 
 ### Create and Launch HTTP Server
-Now that the environment is set up, create an `app.py ` flask application. This is a basic example that uses the structlog Python logging library for OpenTelemetry logging instead of the standard Python logging library. Notice the importance of the following imports for using the structlog handler: `import structlog` and `from handlers.opentelemetry_structlog.src.exporter import StructlogHandler`.
+Now that the environment is set up, create an `app.py` flask application. This is a basic example that uses the structlog Python logging library for OpenTelemetry logging instead of the standard Python logging library. 
+
+Notice the importance of the following imports for using the structlog handler: `import structlog` and `from handlers.opentelemetry_structlog.src.exporter import StructlogHandler`.
 
 ```
 from random import randint
@@ -55,8 +57,6 @@ set_logger_provider(logger_provider)
 structlog_handler = StructlogHandler(service_name="flask-structlog-demo", server_hostname="instance-1", exporter=OTLPLogExporter(insecure=True)) 
 structlog_handler._logger_provider = logger_provider
 structlog_logger = structlog.wrap_logger(structlog.get_logger(), processors=[structlog_handler])  # Add  StructlogHandler to the logger
-
-
 
 app = Flask(__name__)
 
