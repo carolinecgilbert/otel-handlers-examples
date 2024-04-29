@@ -179,27 +179,6 @@ class LoguruHandler:
         )
 
     def sink(self, record) -> None:
-        try:
-            # Check if record is a dictionary
-            if isinstance(record, dict):
-                self._logger.emit(self._translate(record))
-            else:
-                # Log an error if record is not in the expected format
-                self._logger.error("Log record is not in the expected format: {}", record)
-        except AttributeError as e:
-            # Check if the logger has the error method before calling it
-            if hasattr(self._logger, 'error'):
-                self._logger.error("Attribute error occurred during processing: {}", e)
-            else:
-                # If error method doesn't exist, log the AttributeError itself
-                self._logger.error("Attribute error occurred during processing: {}", repr(e))
-        except Exception as e:
-            # Log any other exceptions that occur during processing
-            self._logger.exception("Error processing log record: {}", e)
-
-
-
-
-
-
+        
+        self._logger.emit(self._translate(record))
     

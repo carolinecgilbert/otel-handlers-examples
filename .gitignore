@@ -1,3 +1,11 @@
 __pychache__/
 my_demo_venv/
 /.DS_Store
+handlers/__pycache__/*
+handlers/opentelemetry_structlog/__pycache__/
+handlers/opentelemetry_structlog/src/__pycache__/
+__pycache__/
+handlers/.DS_Store
+handlers/opentelemetry_structlog/.DS_Store
+handlers/opentelemetry_structlog/src/.DS_Store
+handlers/opentelemetry_structlog/src/__pycache__/

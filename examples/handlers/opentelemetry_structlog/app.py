@@ -24,6 +24,7 @@ logger.bind(handler=handler)
 def roll_dice():
     player = request.args.get('player', default=None, type=str)
     result = str(roll())
+    logger.warning("Hello World from Structlog Handler!")
     if player:
         logger.warning("%s is rolling the dice: %s", player, result)
     else:
