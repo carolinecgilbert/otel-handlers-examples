@@ -94,7 +94,7 @@ _STD_TO_OTEL = {
     53: SeverityNumber.FATAL4,
 }
 
-
+EXCLUDE_ATTR = ("elapsed", "exception", "extra", "file", "level", "process", "thread", "time")
 class LoguruHandler:
 
     # this was largely inspired by the OpenTelemetry handler for stdlib `logging`:
@@ -124,12 +124,17 @@ class LoguruHandler:
         
         
     def _get_attributes(self, record) -> Attributes:
-        attributes = {key:value for key, value in record.items()}
+        attributes = {key:value for key, value in record.items() if key not in EXCLUDE_ATTR}
         
          # Add standard code attributes for logs.
-        attributes[SpanAttributes.CODE_FILEPATH] = record['file'] #This includes file and path -> (file, path)
+        attributes[SpanAttributes.CODE_FILEPATH] = record['file'].path #This includes file and path -> (file, path)
         attributes[SpanAttributes.CODE_FUNCTION] = record['function']
         attributes[SpanAttributes.CODE_LINENO] = record['line']
+        attributes['process_name'] = (record['process']).name
+        attributes['process_id'] = (record['process']).id
+        attributes['thread_name'] = (record['thread']).name
+        attributes['thread_id'] = (record['thread']).id
+        attributes['file'] = record['file'].name
         
         if record['exception'] is not None:
 
@@ -157,13 +162,6 @@ class LoguruHandler:
         
         #Timestamp
         timestamp = int(record["time"].timestamp() * 1e9)
-        # print(f"\nNew Timestamp: {newTimestamp}\n")
-        # timestamp = record["time"]
-        print(f"\nTimestamp: {timestamp} \n")
-        # print(f"\n Timestamp Type: {type(timestamp)} \n")
-        # print(f"\n Tuple: {timestamp.timetuple()}\n")
-        # print(f"\n Timestamp year: {timestamp.year}")
-        # print(f"\n Timestamp Month: {timestamp.month}")
         
         #Observed timestamp
         observedTimestamp = time_ns()
