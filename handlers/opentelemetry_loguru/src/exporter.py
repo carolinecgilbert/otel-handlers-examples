@@ -150,11 +150,20 @@ class LoguruHandler:
         
         return _STD_TO_OTEL[levelno]
     
+  
+        
         
     def _translate(self, record) -> LogRecord:
         
         #Timestamp
-        timestamp = record["time"]
+        timestamp = int(record["time"].timestamp() * 1e9)
+        # print(f"\nNew Timestamp: {newTimestamp}\n")
+        # timestamp = record["time"]
+        print(f"\nTimestamp: {timestamp} \n")
+        # print(f"\n Timestamp Type: {type(timestamp)} \n")
+        # print(f"\n Tuple: {timestamp.timetuple()}\n")
+        # print(f"\n Timestamp year: {timestamp.year}")
+        # print(f"\n Timestamp Month: {timestamp.month}")
         
         #Observed timestamp
         observedTimestamp = time_ns()
