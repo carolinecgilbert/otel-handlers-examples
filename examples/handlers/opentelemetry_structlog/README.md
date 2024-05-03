@@ -20,6 +20,8 @@ After activating the virtual environment `venv`, install flask and structlog.
 pip install flask
 pip install structlog
 pip install opentelemetry-exporter-otlp
+pip install opentelemetry-sdk
+pip install opentelemetry-api
 ```
 
 ### Create and Launch HTTP Server
